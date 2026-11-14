@@ -1,0 +1,185 @@
+# ══════════════════════════════════════════════════════════════════════════
+# ylxc/disk —— 磁盘占用（状态栏组件 + 详情面板）
+#
+# 文件系统占用来自宿主的 statvfs 快照（noctalia.diskMounts / noctalia.diskStats）；
+# 子卷占用来自 /proc/self/mountinfo + 一次性后台遍历统计（无常驻进程）：
+#   bar.luau     栏组件：百分比 / 已用-总量 / 剩余 / 剩余百分比 / 迷你进度条
+#   panel.luau   详情面板：每个文件系统一张卡片 + 各子卷/挂载点占用
+#   lib/disk.luau   两者共用的取值、格式化与阈值分级
+#   lib/subvol.luau 子卷占用：枚举 mountinfo、后台遍历统计、结果缓存
+# 本地校验：noctalia plugins lint ~/.local/share/noctalia/plugins/ylxc-disk
+# ══════════════════════════════════════════════════════════════════════════
+
+author = "ylxc"
+id = "ylxc/disk"
+name = "Disk Usage"
+description = "Shows disk usage in the bar, with per-filesystem and per-btrfs-subvolume details in the panel."
+license = "MIT"
+version = "1.1.1"
+plugin_api = 26
+icon = "server"
+dependencies = []
+tags = ["system", "monitor", "bar", "panel"]
+
+# ── 插件级设置：栏组件与面板共用 ────────────────────────────────────────────
+
+[[setting]]
+key = "warn_percent"
+type = "int"
+default = 80
+min = 50
+max = 99
+label_key = "settings.warn_percent.label"
+description_key = "settings.warn_percent.description"
+
+[[setting]]
+key = "crit_percent"
+type = "int"
+default = 90
+min = 51
+max = 100
+label_key = "settings.crit_percent.label"
+description_key = "settings.crit_percent.description"
+
+[[setting]]
+key = "refresh_seconds"
+type = "int"
+default = 30
+min = 2
+max = 600
+label_key = "settings.refresh_seconds.label"
+description_key = "settings.refresh_seconds.description"
+
+[[setting]]
+key = "tooltip_mounts"
+type = "bool"
+default = true
+label_key = "settings.tooltip_mounts.label"
+description_key = "settings.tooltip_mounts.description"
+
+[[setting]]
+key = "tooltip_max"
+type = "int"
+default = 6
+min = 1
+max = 16
+label_key = "settings.tooltip_max.label"
+description_key = "settings.tooltip_max.description"
+visible_when = { key = "tooltip_mounts", values = ["true"] }
+
+# ── 子卷占用（面板下半部分） ────────────────────────────────────────────────
+# statvfs 对同一文件系统上的每个子卷返回的是同一组数字（总量/剩余都是整个
+# 文件系统的），所以「/home 自己占了多少」只能遍历统计；这里控制它的口径。
+
+[[setting]]
+key = "show_subvolumes"
+type = "bool"
+default = true
+label_key = "settings.show_subvolumes.label"
+description_key = "settings.show_subvolumes.description"
+
+[[setting]]
+key = "subvol_size_mode"
+type = "select"
+default = "allocated"
+label_key = "settings.subvol_size_mode.label"
+description_key = "settings.subvol_size_mode.description"
+options = [
+  { value = "allocated", label_key = "opt_subvol_allocated" },
+  { value = "apparent", label_key = "opt_subvol_apparent" },
+  { value = "btrfs", label_key = "opt_subvol_btrfs" }
+]
+
+[[setting]]
+key = "subvol_auto_scan"
+type = "bool"
+default = true
+label_key = "settings.subvol_auto_scan.label"
+description_key = "settings.subvol_auto_scan.description"
+
+[[setting]]
+key = "subvol_cache_minutes"
+type = "int"
+default = 720
+min = 10
+max = 10080
+label_key = "settings.subvol_cache_minutes.label"
+description_key = "settings.subvol_cache_minutes.description"
+
+[[setting]]
+key = "subvol_paths"
+type = "string"
+default = ""
+label_key = "settings.subvol_paths.label"
+description_key = "settings.subvol_paths.description"
+# ── 栏组件 ──────────────────────────────────────────────────────────────────
+
+[[widget]]
+id = "usage"
+entry = "bar.luau"
+
+  [[widget.setting]]
+  key = "mount"
+  type = "string"
+  default = ""
+  label_key = "settings.mount.label"
+  description_key = "settings.mount.description"
+
+  [[widget.setting]]
+  key = "display"
+  type = "select"
+  default = "percent"
+  label_key = "settings.display.label"
+  description_key = "settings.display.description"
+  options = [
+    { value = "percent", label_key = "opt_percent" },
+    { value = "used", label_key = "opt_used" },
+    { value = "free", label_key = "opt_free" },
+    { value = "free_percent", label_key = "opt_free_percent" },
+    { value = "bar", label_key = "opt_bar" }
+  ]
+
+  [[widget.setting]]
+  key = "glyph"
+  type = "glyph"
+  default = "server"
+  label_key = "settings.glyph.label"
+  description_key = "settings.glyph.description"
+
+  [[widget.setting]]
+  key = "show_glyph"
+  type = "bool"
+  default = true
+  label_key = "settings.show_glyph.label"
+  description_key = "settings.show_glyph.description"
+
+  [[widget.setting]]
+  key = "glyph_color"
+  type = "select"
+  default = "level"
+  label_key = "settings.glyph_color.label"
+  description_key = "settings.glyph_color.description"
+  options = [
+    { value = "level", label_key = "opt_level" },
+    { value = "theme", label_key = "opt_theme" },
+    { value = "primary", label_key = "opt_primary" },
+    { value = "secondary", label_key = "opt_secondary" },
+    { value = "tertiary", label_key = "opt_tertiary" },
+    { value = "error", label_key = "opt_error" }
+  ]
+
+  # 手势默认值；用户可在设置里改绑或改成 none
+  [widget.actions]
+  left = "panel-toggle ylxc/disk:panel"
+  middle = "settings-open-widget"
+  right = "none"
+
+# ── 详情面板 ────────────────────────────────────────────────────────────────
+
+[[panel]]
+id = "panel"
+entry = "panel.luau"
+width = 420
+height = 560
+placement = "floating"
+position = "center"

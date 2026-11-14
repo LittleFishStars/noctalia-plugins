@@ -1,0 +1,19 @@
+{
+  "title": "Example",
+  "clicks": {
+    "one": "clicked {count} time",
+    "other": "clicked {count} times"
+  },
+  "settings": {
+    "label": {
+      "label": "Label",
+      "description": "Text shown on the bar"
+    },
+    "glyph": {
+      "label": "Glyph"
+    },
+    "show_glyph": {
+      "label": "Show glyph"
+    }
+  }
+}

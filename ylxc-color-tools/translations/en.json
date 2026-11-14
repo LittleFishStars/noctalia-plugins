@@ -1,0 +1,67 @@
+{
+  "color_copied": "Color {color} copied.",
+  "color_picked": "Color {color} picked.",
+  "color_picker": "Color Tools",
+  "could_not_parse": "could not parse hyprpicker output.",
+  "glyph": "Glyph",
+  "hex": "HEX",
+  "hsl": "HSL",
+  "hsv": "HSV",
+  "hyprpicker_not_installed": "hyprpicker is not installed.",
+  "no_color_picked": "No color picked yet.",
+  "no_history": "No colors in history yet.",
+  "opacity": "Opacity",
+  "palette": "Palette",
+  "palette_blue": "Blue",
+  "palette_green": "Green",
+  "palette_hue": "Hue",
+  "palette_lightness": "Lightness",
+  "palette_red": "Red",
+  "palette_saturation": "Saturation",
+  "palette_value": "Value",
+  "picker_already_open": "The color picker dialog is already open.",
+  "recent_colors": "Recent Colors",
+  "rgb": "RGB",
+  "settings": {
+    "hyprpicker_cursor": {
+      "description": "Includes the cursor in the frozen screen preview.",
+      "label": "Show cursor"
+    },
+    "hyprpicker_disable_preview": {
+      "description": "Turns off the live color preview while picking.",
+      "label": "Disable Live Preview"
+    },
+    "hyprpicker_format": {
+      "description": "Default color format to copy to clipboard (Hex or RGB).",
+      "label": "Default Format"
+    },
+    "hyprpicker_lowercase": {
+      "description": "Outputs the hexcode in lowercase.",
+      "label": "Lowercase Hex"
+    },
+    "hyprpicker_no_zoom": {
+      "description": "Turns off the magnifying zoom lens while picking.",
+      "label": "Disable Zoom Lens"
+    },
+    "hyprpicker_radius": {
+      "description": "Zoom lens circle radius in pixels, from 1 to 1000.",
+      "label": "Zoom Radius"
+    },
+    "hyprpicker_scale": {
+      "description": "Zoom lens magnification, from 1 to 10.",
+      "label": "Zoom Scale"
+    },
+    "palette_mode": {
+      "label": "Default adjustment mode",
+      "description": "Adjustment mode the palette opens with: hsl, rgb or hsv."
+    },
+    "palette_visible": {
+      "description": "Shows the built-in palette inside the panel.",
+      "label": "Show Palette"
+    },
+    "swatch_radius": {
+      "description": "Corner radius of the history swatches and current-color preview.",
+      "label": "Swatches Corner Roundness"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "title": "示例",
+  "clicks": {
+    "one": "点击了 {count} 次",
+    "other": "点击了 {count} 次"
+  },
+  "settings": {
+    "label": {
+      "label": "标签",
+      "description": "显示在状态栏上的文字"
+    },
+    "glyph": {
+      "label": "图标"
+    },
+    "show_glyph": {
+      "label": "显示图标"
+    }
+  }
+}

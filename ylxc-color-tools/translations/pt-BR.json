@@ -1,0 +1,67 @@
+{
+  "color_copied": "Cor {color} copiada.",
+  "color_picked": "Cor {color} selecionada.",
+  "color_picker": "Seletor de Cores",
+  "could_not_parse": "não foi possível extrair a saída do hyprpicker.",
+  "glyph": "Símbolo",
+  "hex": "HEX",
+  "hsl": "HSL",
+  "hsv": "HSV",
+  "hyprpicker_not_installed": "hyprpicker não está instalado.",
+  "no_color_picked": "Nenhuma cor escolhida ainda.",
+  "no_history": "Ainda não há cores no histórico.",
+  "opacity": "Opacidade",
+  "palette": "Paleta",
+  "palette_blue": "Azul",
+  "palette_green": "Verde",
+  "palette_hue": "Matiz",
+  "palette_lightness": "Luminosidade",
+  "palette_red": "Vermelho",
+  "palette_saturation": "Saturação",
+  "palette_value": "Valor",
+  "picker_already_open": "A caixa de diálogo do conta-gotas já está aberta.",
+  "recent_colors": "Cores Recentes",
+  "rgb": "RGB",
+  "settings": {
+    "hyprpicker_cursor": {
+      "description": "Inclui o cursor na prévia congelada da tela.",
+      "label": "Mostrar cursor"
+    },
+    "hyprpicker_disable_preview": {
+      "description": "Desativa a prévia da cor em tempo real ao selecionar.",
+      "label": "Desabilitar Prévia em Tempo Real"
+    },
+    "hyprpicker_format": {
+      "description": "Formato de cor padrão para copiar para a área de transferência (Hex ou RGB).",
+      "label": "Formato Padrão"
+    },
+    "hyprpicker_lowercase": {
+      "description": "Exibe o código hexadecimal em letras minúsculas.",
+      "label": "Hexadecimal em Minúsculas"
+    },
+    "hyprpicker_no_zoom": {
+      "description": "Dpesativa a lupa ao selecionar a cor.",
+      "label": "Desabilitar Lupa"
+    },
+    "hyprpicker_radius": {
+      "description": "Raio do círculo da lupa em pixels, de 1 a 1000.",
+      "label": "Raio do Zoom"
+    },
+    "hyprpicker_scale": {
+      "description": "Ampliação da lupa, de 1 a 10.",
+      "label": "Escala do Zoom"
+    },
+    "palette_mode": {
+      "label": "Modo de ajuste padrão",
+      "description": "Modo de ajuste com que a paleta abre: hsl, rgb ou hsv."
+    },
+    "palette_visible": {
+      "description": "Mostra a paleta integrada dentro do painel.",
+      "label": "Mostrar Paleta"
+    },
+    "swatch_radius": {
+      "description": "Raio dos cantos das amostras do histórico e da prévia da cor atual.",
+      "label": "Arredondamento de Cantos das Amostras"
+    }
+  }
+}

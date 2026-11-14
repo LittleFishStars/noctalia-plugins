@@ -1,0 +1,241 @@
+{
+  "plugin": {
+    "name": "LLM Hub",
+    "description": "Aggregate any number of model APIs behind one local endpoint, route by rules, and call it from local apps"
+  },
+  "settings": {
+    "autostart": {
+      "label": "Start gateway with Noctalia",
+      "description": "Launch the local gateway daemon as soon as the plugin loads"
+    },
+    "stop_on_exit": {
+      "label": "Stop gateway on exit",
+      "description": "Stop the daemon when Noctalia shuts down or the plugin is disabled"
+    },
+    "port": {
+      "label": "Listen port",
+      "description": "Gateway port; if it is taken, the next free port is used"
+    },
+    "host": {
+      "label": "Listen address",
+      "description": "localhost listens on both 127.0.0.1 and ::1; comma-separate several addresses, 0.0.0.0 exposes it to your LAN"
+    },
+    "api_key": {
+      "label": "Local access key",
+      "description": "Key local apps must send; leave empty to disable checking"
+    },
+    "config_path": {
+      "label": "Config file path",
+      "description": "Empty uses the default ~/.config/llm-hub/config.json"
+    },
+    "poll_interval_ms": {
+      "label": "Refresh interval (ms)",
+      "description": "How often the bar widget and console read gateway status"
+    },
+    "glyph": {
+      "label": "Glyph",
+      "description": "Tabler icon shown in the bar, e.g. router, server, brain"
+    },
+    "show_text": {
+      "label": "Show text",
+      "description": "Show text next to the bar glyph (latency only for now)"
+    },
+    "show_latency": {
+      "label": "Show latency",
+      "description": "Include the average latency in the text"
+    }
+  },
+  "bar": {
+    "state": "Status",
+    "running": "Running",
+    "stopped": "Stopped",
+    "unknown": "Unknown",
+    "endpoint": "Endpoint",
+    "uptime": "Uptime",
+    "providers": "Providers",
+    "requests": "Requests",
+    "tokens": "Tokens",
+    "cost": "Cost",
+    "hint": "Left click opens the console, right click copies the endpoint",
+    "hint_body": "Point your local app's base URL at this endpoint; any routed model name works",
+    "copied": "Endpoint copied: {endpoint}"
+  },
+  "stats": {
+    "errors_n": "{count} errors"
+  },
+  "shortcut": {
+    "on": "Gateway running · click to stop",
+    "off": "Gateway stopped · click to start",
+    "starting": "Starting gateway…",
+    "stopping": "Stopping gateway…"
+  },
+  "panel": {
+    "title": "LLM Hub",
+    "running": "Running",
+    "stopped": "Stopped",
+    "not_running": "The gateway is not running. Start it, or open settings to add your model APIs.",
+    "start": "Start gateway",
+    "stop": "Stop gateway",
+    "restart": "Restart",
+    "reload_config": "Reload config",
+    "clear_logs": "Clear logs",
+    "reset_stats": "Reset stats",
+    "copy_endpoint": "Copy endpoint",
+    "copied_endpoint": "Endpoint copied: {endpoint}",
+    "open_settings": "Plugin settings",
+    "busy": "Running “{label}”…",
+    "done": "“{label}” finished",
+    "failed": "“{label}” failed: {detail}",
+    "tile": {
+      "requests": "Requests",
+      "errors": "Failures",
+      "tokens": "Tokens",
+      "cost": "Est. cost"
+    },
+    "unit": {
+      "providers": " providers",
+      "models": " models"
+    },
+    "tab": {
+      "overview": "Overview",
+      "providers": "Providers",
+      "rules": "Routing",
+      "ask": "Ask",
+      "logs": "Logs"
+    },
+    "overview": {
+      "runtime": "Runtime",
+      "endpoint": "Local endpoint",
+      "uptime": "Uptime",
+      "providers": "Enabled / all",
+      "config": "Config file",
+      "config_default": "default location",
+      "datadir": "Data dir",
+      "version": "Gateway version",
+      "auth": "Local auth",
+      "auth_on": "enabled",
+      "auth_off": "disabled",
+      "rules": "Rule summary"
+    },
+    "providers": {
+      "title": "Providers ({count})",
+      "empty": "No providers configured yet. Edit the config file, then hit Reload config.",
+      "on": "enabled",
+      "off": "disabled",
+      "enable": "Enable",
+      "disable": "Disable",
+      "missing_env": "missing env",
+      "no_key": "no key",
+      "test": "Connectivity test",
+      "test_fail": "unreachable",
+      "test_result": "Test result · {id}",
+      "hint": "Each row is a provider — click the pencil to edit its URL, key and models; the switch enables it.",
+      "edit": "Edit",
+      "back": "Back",
+      "edit_title": "Edit provider {id}",
+      "type": "Type",
+      "type_hint": "Upstream API flavour; switching resets the URL to that flavour's default",
+      "url": "URL",
+      "url_hint": "Provider API base URL, e.g. https://api.deepseek.com (no /v1)",
+      "key": "API key",
+      "models": "Models",
+      "models_hint": "Comma separated; * = every model of this provider; empty = not routed",
+      "save": "Save",
+      "saved": "{id}: configuration saved",
+      "nochange": "{id}: nothing to save",
+      "add": "Add provider",
+      "add_hint": "After adding, fill in URL, key and models to start using it",
+      "added": "Added {id}: fill in URL, key and models to activate it",
+      "remove": "Remove",
+      "remove_confirm": "Confirm remove",
+      "remove_ask": "Click “Confirm remove” again to delete {id}",
+      "removed": "Removed {id}",
+      "idle": "no models · not routed",
+      "type_changed": "Switched to {type}; URL reset to the new default, please review the models",
+      "key_hint_saved": "Key saved · leave blank to keep it (${VAR} supported)",
+      "key_hint_new": "Paste the API key (${VAR} supported)"
+    },
+    "rules": {
+      "title": "Routing rules",
+      "when": "When",
+      "always": "always",
+      "aliases": "Model aliases",
+      "scenarios": "Scenario endpoints",
+      "default": "Default route (no rule matched)",
+      "fallback_on": "falls back to the next candidate on failure",
+      "hint": "One rule per row: the pencil edits conditions and candidates, the switch enables it, ↑↓ reorders priority (top matches first).",
+      "empty": "No rules yet. Use “Add rule” below to create one.",
+      "add": "Add rule",
+      "add_hint": "New rules start disabled — fill in conditions and candidates, then flip the switch",
+      "added": "Added {id} (disabled): enable it once its conditions are set",
+      "edit": "Edit",
+      "edit_title": "Edit rule {id}",
+      "back": "Back to list",
+      "save": "Save",
+      "saved": "{id}: saved",
+      "nochange": "{id}: nothing to save",
+      "remove": "Delete rule",
+      "remove_confirm": "Confirm delete",
+      "remove_ask": "Click “Confirm delete” again to delete {id}",
+      "removed": "Deleted {id}",
+      "move": "Reorder",
+      "move_up": "Move up (higher priority)",
+      "move_down": "Move down",
+      "moved": "{id}: reordered",
+      "move_edge": "{id}: already at the edge",
+      "toggle": "Enable/disable rule",
+      "now_on": "{id}: enabled",
+      "now_off": "{id}: disabled (config kept)",
+      "edit_hint": "Separate multiple values with commas; leave empty for no restriction (removes the condition)",
+      "f_desc": "Description",
+      "f_model": "Model match",
+      "f_provider": "Provider match",
+      "f_tags": "Tag match",
+      "f_scenario": "Scenario match",
+      "f_mintok": "Min prompt tokens",
+      "f_maxtok": "Max prompt tokens",
+      "f_regex": "Prompt regex",
+      "f_chain": "Candidate chain (tried in order)",
+      "f_tools": "Tool requirement",
+      "f_tactic": "Candidate ordering",
+      "f_fallback": "Fall back to the next candidate on failure",
+      "model_hint": "e.g. deepseek-*, *-mini (comma separated)",
+      "chain_hint": "provider ids, comma separated; * = all enabled",
+      "tools_any": "Any",
+      "tools_yes": "Must have tools",
+      "tools_no": "Must not have tools",
+      "tactic_listed": "Listed order",
+      "tactic_priority": "By priority (default)",
+      "tactic_cheapest": "Cheapest",
+      "tactic_fastest": "Fastest",
+      "tactic_least_used": "Least used",
+      "tactic_random": "Random",
+      "tactic_round_robin": "Round robin"
+    },
+    "ask": {
+      "title": "Quick ask",
+      "placeholder": "Type a question, Enter to send (uses real routing)",
+      "send": "Send",
+      "thinking": "Waiting for the model…",
+      "copy": "Copy",
+      "copied": "Answer copied",
+      "failed": "Request failed",
+      "no_response": "No answer received"
+    },
+    "route": {
+      "title": "Route dry run",
+      "placeholder": "model name, e.g. gpt-4o-mini or fast",
+      "run": "Dry run",
+      "hint": "Enter a model name (aliases and * wildcards work) to see the matched rule and provider",
+      "running": "Resolving…",
+      "failed": "Dry run failed",
+      "none": "no candidate available"
+    },
+    "logs": {
+      "title": "Recent requests ({count})",
+      "empty": "No requests logged yet",
+      "loading": "Loading logs…"
+    },
+    "loading": "Reading the new rule…"
+  }
+}

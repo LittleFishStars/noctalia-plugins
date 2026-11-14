@@ -1,0 +1,44 @@
+# ylxc/demo —— 最小可用插件模板
+# 目录布局：<此目录>/plugin.toml + 各入口 .luau + translations/<lang>.json
+# 放入 $XDG_DATA_HOME/noctalia/plugins/<目录名>/ 即被识别为 local 源。
+# 改 .luau 会热重载；改本文件需要在设置里重载配置（或 `noctalia msg config-reload`）。
+
+id = "ylxc/demo"          # 必须 "作者/插件"，用 slug（小写字母、数字、连字符）
+name = "Demo"
+version = "0.1.0"         # MAJOR.MINOR.PATCH
+plugin_api = 3            # 你用到的最低宿主 API 版本：声明越低兼容越广
+author = "ylxc"
+license = "MIT"
+description = "演示 noctalia 插件的最小结构：栏图标 + 后台服务 + 设置 + IPC。"
+tags = ["demo"]
+icon = "puzzle"
+
+# ── 栏图标：出现在「添加组件」选择器里 ─────────────────────────────
+[[widget]]
+id = "greeter"            # 入口名：ylxc/demo:greeter
+entry = "greeter.luau"
+
+  # 设置项：改完立刻写进插件配置，代码里用 noctalia.getConfig(key) 读
+  [[widget.setting]]
+  key = "label"
+  type = "string"
+  label_key = "settings.label.label"
+  description_key = "settings.label.description"
+  default = "你好"
+
+  [[widget.setting]]
+  key = "glyph"
+  type = "glyph"
+  label_key = "settings.glyph.label"
+  default = "hand-stop"
+
+  [[widget.setting]]
+  key = "show_glyph"
+  type = "bool"
+  label_key = "settings.show_glyph.label"
+  default = true
+
+# ── 后台服务：没有界面，只跑 update() 并往插件共享状态里写数据 ──────
+[[service]]
+id = "ticker"
+entry = "ticker.luau"

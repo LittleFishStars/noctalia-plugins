@@ -1,0 +1,153 @@
+# ══════════════════════════════════════════════════════════════════════════
+# ylxc/yangfan —— 扬帆云机场面板：剩余流量 / 剩余天数
+#
+# 走扬帆云面板（Xboard 内核）的客户端接口：
+#   POST /api/v1/passport/auth/login     邮箱 + 密码换 token（Bearer）
+#   GET  /api/v1/user/getSubscribe       总量 / 已用 / 到期 / 重置日
+#   GET  /api/v1/user/info               余额 / 佣金 / 套餐 id
+# token 失效（接口回 403「未登录或登陆已过期」）时自动用设置里的邮箱密码重新登录。
+#
+# 目录结构：
+#   plugin.toml              本清单
+#   lib/yangfan.luau         共享模块：配置、登录、取数、令牌缓存、格式化
+#   service.luau             后台服务：唯一的取数者，把快照写进插件共享状态
+#   bar.luau                 栏组件：剩余流量（可切成已用 / 百分比 / 剩余天数）
+#   panel.luau               详情面板：进度条 + 到期 / 余额 / 刷新
+#   translations/*.json      文案
+# ══════════════════════════════════════════════════════════════════════════
+
+id = "ylxc/yangfan"
+name = "扬帆云流量"
+name_key = "plugin.name"
+version = "1.0.0"
+plugin_api = 34
+author = "ylxc"
+license = "MIT"
+icon = "cloud"
+description = "扬帆云机场面板的剩余流量与剩余天数，令牌失效时用邮箱密码自动重新登录。"
+description_key = "plugin.description"
+tags = ["network", "vpn", "traffic", "yangfan", "bar"]
+dependencies = []
+
+# ── 账号与接口 ──────────────────────────────────────────────────────────────
+
+[[setting]]
+key = "email"
+type = "string"
+label_key = "settings.email.label"
+description_key = "settings.email.description"
+default = ""
+
+[[setting]]
+key = "password"
+type = "string"
+label_key = "settings.password.label"
+description_key = "settings.password.description"
+default = ""
+
+[[setting]]
+key = "base_url"
+type = "string"
+label_key = "settings.base_url.label"
+description_key = "settings.base_url.description"
+default = "https://panel.example.com"
+
+[[setting]]
+key = "keep_session"
+type = "bool"
+label_key = "settings.keep_session.label"
+description_key = "settings.keep_session.description"
+default = true
+
+# ── 刷新与提醒 ──────────────────────────────────────────────────────────────
+
+[[setting]]
+key = "refresh_minutes"
+type = "int"
+label_key = "settings.refresh_minutes.label"
+description_key = "settings.refresh_minutes.description"
+default = 10
+min = 1
+max = 1440
+
+[[setting]]
+key = "notify_enabled"
+type = "bool"
+label_key = "settings.notify_enabled.label"
+description_key = "settings.notify_enabled.description"
+default = true
+
+[[setting]]
+key = "warn_traffic_percent"
+type = "int"
+label_key = "settings.warn_traffic_percent.label"
+description_key = "settings.warn_traffic_percent.description"
+default = 10
+min = 1
+max = 50
+visible_when = { key = "notify_enabled", values = ["true"] }
+
+[[setting]]
+key = "warn_days"
+type = "int"
+label_key = "settings.warn_days.label"
+description_key = "settings.warn_days.description"
+default = 3
+min = 1
+max = 30
+visible_when = { key = "notify_enabled", values = ["true"] }
+
+# ── 栏组件 ──────────────────────────────────────────────────────────────────
+
+[[widget]]
+id = "main"
+entry = "bar.luau"
+
+  [[widget.setting]]
+  key = "show_glyph"
+  type = "bool"
+  label_key = "settings.show_glyph.label"
+  description_key = "settings.show_glyph.description"
+  default = true
+
+  [[widget.setting]]
+  key = "glyph"
+  type = "glyph"
+  label_key = "settings.glyph.label"
+  description_key = "settings.glyph.description"
+  default = "cloud"
+
+  [[widget.setting]]
+  key = "display"
+  type = "select"
+  label_key = "settings.display.label"
+  description_key = "settings.display.description"
+  default = "remain"
+  options = [
+    { value = "remain", label_key = "settings.display.option.remain" },
+    { value = "used", label_key = "settings.display.option.used" },
+    { value = "percent", label_key = "settings.display.option.percent" },
+    { value = "days", label_key = "settings.display.option.days" },
+    { value = "remain_days", label_key = "settings.display.option.remain_days" },
+  ]
+
+  [widget.actions]
+  left = "panel-toggle ylxc/yangfan:panel"
+  middle = "settings-open-widget"
+  right = "none"
+
+# ── 详情面板 ────────────────────────────────────────────────────────────────
+
+[[panel]]
+id = "panel"
+entry = "panel.luau"
+width = 380
+height = 430
+placement = "floating"
+position = "center"
+
+# ── 后台服务：唯一的取数者 ──────────────────────────────────────────────────
+
+[[service]]
+id = "service"
+entry = "service.luau"

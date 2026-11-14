@@ -1,0 +1,6 @@
+*.log
+*.tmp
+.tmp/
+
+# 冒烟测试的临时数据目录
+tests/.data/

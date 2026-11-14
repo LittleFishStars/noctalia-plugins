@@ -1,0 +1,17 @@
+# 调试/草稿目录（本地工作区专用，不入库）
+.tmp/
+.scratch/
+.qweather-scratch/
+
+# 含本机硬件信息的 Noctalia 配置导出（含设备 MAC 等，仅本地保留）
+.config-export.toml
+
+# 通用临时产物
+*.log
+*.tmp
+*.bak
+*~
+__pycache__/
+*.py[cod]
+*.egg-info/
+.DS_Store

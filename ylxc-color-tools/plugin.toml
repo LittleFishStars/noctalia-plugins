@@ -1,0 +1,123 @@
+author = "ylxc"
+id = "ylxc/color-tools"
+name = "Color Tools"
+description  = "Screen color picker with history, editing fields and a built-in palette."
+license = "MIT"
+version = "1.1.0"
+plugin_api = 9
+icon = "palette"
+dependencies = ["hyprpicker"]
+tags = ["theming", "utility", "bar", "panel", "palette"]
+
+[[setting]]
+key = "hyprpicker-format"
+type = "select"
+default = "hex"
+label_key = "settings.hyprpicker_format.label"
+description_key = "settings.hyprpicker_format.description"
+options = [
+  { value = "hex", label_key = "hex" },
+  { value = "rgb", label_key = "rgb" }
+]
+
+[[setting]]
+key = "hyprpicker-lowercase"
+type = "bool"
+label_key = "settings.hyprpicker_lowercase.label"
+description_key = "settings.hyprpicker_lowercase.description"
+visible_when = { key = "hyprpicker-format", values = ["hex"]}
+default = false
+
+[[setting]]
+key = "swatch-radius"
+type = "int"
+label_key = "settings.swatch_radius.label"
+description_key = "settings.swatch_radius.description"
+default = 8
+min = 0
+max = 64
+
+[[setting]]
+key = "palette-visible"
+type = "bool"
+label_key = "settings.palette_visible.label"
+description_key = "settings.palette_visible.description"
+default = true
+
+[[setting]]
+key = "palette-mode"
+type = "select"
+label_key = "settings.palette_mode.label"
+description_key = "settings.palette_mode.description"
+visible_when = { key = "palette-visible", values = ["true"]}
+default = "hsl"
+options = [
+  { value = "hsl", label_key = "hsl" },
+  { value = "rgb", label_key = "rgb" },
+  { value = "hsv", label_key = "hsv" }
+]
+
+[[setting]]
+key = "hyprpicker-no-zoom"
+type = "bool"
+label_key = "settings.hyprpicker_no_zoom.label"
+description_key = "settings.hyprpicker_no_zoom.description"
+default = false
+
+[[setting]]
+key = "hyprpicker-scale"
+type = "int"
+label_key = "settings.hyprpicker_scale.label"
+description_key = "settings.hyprpicker_scale.description"
+visible_when = { key = "hyprpicker-no-zoom", values = ["false"]}
+default = 10
+min = 1
+max = 10
+
+[[setting]]
+key = "hyprpicker-radius"
+type = "int"
+label_key = "settings.hyprpicker_radius.label"
+description_key = "settings.hyprpicker_radius.description"
+visible_when = { key = "hyprpicker-no-zoom", values = ["false"]}
+default = 100
+min = 1
+max = 1000
+
+[[setting]]
+key = "hyprpicker-disable-preview"
+type = "bool"
+label_key = "settings.hyprpicker_disable_preview.label"
+description_key = "settings.hyprpicker_disable_preview.description"
+visible_when = { key = "hyprpicker-no-zoom", values = ["false"]}
+default = false
+
+[[setting]]
+key = "hyprpicker-cursor"
+type = "bool"
+label_key = "settings.hyprpicker_cursor.label"
+description_key = "settings.hyprpicker_cursor.description"
+default = false
+
+[[widget]]
+id = "widget"
+entry = "widget.luau"
+
+  [[widget.setting]]
+  key = "glyph"
+  type = "glyph"
+  label_key = "glyph"
+  default = "palette"
+
+[[panel]]
+id = "panel"
+entry = "panel.luau"
+width = 720
+height = 430
+placement = "floating"
+position = "center"
+
+# Headless background service: owns the hyprpicker backend
+[[service]]
+id = "service"
+entry = "service.luau"
