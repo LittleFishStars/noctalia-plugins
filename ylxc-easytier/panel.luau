@@ -57,9 +57,18 @@ end
 
 -- ── 小组件 ─────────────────────────────────────────────────────────────────
 
---- 概览里的一块：小标题 + 大字数值
+--- 概览里的一块：小标题 + 大字数值。
+--- flexGrow = 1 让同一行的卡片平分宽度（四列左右对齐）；
+--- minWidth 兜住窄面板下「累计流量」这类长值不被挤成两行。
 local function tile(label, value, glyph, role)
-    return ui.column({ gap = 2, padding = 8, radius = 8, fill = "surface_variant/0.35" }, {
+    return ui.column({
+        gap = 2,
+        padding = 8,
+        radius = 8,
+        fill = "surface_variant/0.35",
+        flexGrow = 1,
+        minWidth = 84,
+    }, {
         ui.row({ gap = 5, align = "center" }, {
             ui.glyph({ name = glyph, size = 12, color = role or "on_surface_variant" }),
             ui.label({ text = label, color = "on_surface_variant", fontSize = 10, maxLines = 1 }),

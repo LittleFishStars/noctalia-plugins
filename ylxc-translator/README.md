@@ -1,7 +1,7 @@
 # Translator · 启动器翻译搜索源
 
 在 Noctalia 启动器里敲 `/tr`，直接用大模型把文本翻成目标语言；本机装了大模型控制中心
-（[`ylxc/llm-hub`](https://github.com/LittleFishStars/noctalia-llm-hub)）的话，请求会**转交给控制中心**，
+（[`ylxc/llm-hub`](https://github.com/LittleFishStars/noctalia-plugins/tree/main/ylxc-llm-hub)）的话，请求会**转交给控制中心**，
 路由、配额、用量统计统一在控制中心里看。
 
 ```

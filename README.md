@@ -1,6 +1,6 @@
 # Noctalia 插件合集
 
-本仓库是 [Noctalia](https://github.com/noctalia-dev/noctalia) 桌面壳的插件工作区，**一个仓库装下全部插件**（2026-11-14 由 9 个独立插件目录合并而来；原先各自的 `noctalia-*` 仓库仍在 GitHub 上保留历史）。
+本仓库是 [Noctalia](https://github.com/noctalia-dev/noctalia) 桌面壳的插件工作区，**一个仓库装下全部插件**（2026-11-14 由 9 个独立插件目录合并而来；原先各自的 `noctalia-*` 仓库已删除，历史备份在本机 `.tmp/git-backups/`）。
 
 ## 插件一览
 

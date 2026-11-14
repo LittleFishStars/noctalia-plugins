@@ -38,7 +38,8 @@ easytier-cli -o json peer     # 验证：应输出 JSON
 ## 安装
 
 ```bash
-git clone https://github.com/LittleFishStars/noctalia-easytier.git ~/.local/share/noctalia/plugins/ylxc-easytier
+git clone --depth 1 https://github.com/LittleFishStars/noctalia-plugins.git /tmp/noctalia-plugins
+cp -r /tmp/noctalia-plugins/ylxc-easytier ~/.local/share/noctalia/plugins/
 noctalia plugins enable ylxc/easytier
 ```
 
