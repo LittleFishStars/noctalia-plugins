@@ -73,7 +73,14 @@ local function tile(label, value, glyph, role)
             ui.glyph({ name = glyph, size = 12, color = role or "on_surface_variant" }),
             ui.label({ text = label, color = "on_surface_variant", fontSize = 10, maxLines = 1 }),
         }),
-        ui.label({ text = value, fontWeight = "bold", fontSize = 13, color = role or "on_surface" }),
+        -- 长值（如「↓13M ↑2.2M」）自动降一级字号，保证四列等宽时不会折行
+        ui.label({
+            text = value,
+            fontWeight = "bold",
+            fontSize = (#value > 9 and 11) or (#value > 6 and 12) or 13,
+            color = role or "on_surface",
+            maxLines = 1,
+        }),
     })
 end
 
