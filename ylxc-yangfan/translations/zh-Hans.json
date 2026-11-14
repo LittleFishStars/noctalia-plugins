@@ -1,7 +1,6 @@
 {
   "plugin.name": "扬帆云流量",
   "plugin.description": "扬帆云面板的剩余流量与剩余天数；令牌失效时用邮箱密码自动重新登录",
-
   "settings.email.label": "邮箱",
   "settings.email.description": "扬帆云面板的登录邮箱（面板 → 个人信息里那个）",
   "settings.password.label": "密码",
@@ -29,20 +28,16 @@
   "settings.display.option.percent": "剩余百分比",
   "settings.display.option.days": "剩余天数",
   "settings.display.option.remain_days": "剩余流量 + 天数",
-
   "bar.days": "%d天",
   "bar.longterm": "长期",
   "bar.unlimited": "不限量",
   "bar.not_configured": "未配置",
-
   "hint.need_account": "在插件设置里填扬帆云的邮箱和密码",
   "hint.need_password": "填了邮箱，但还没填密码",
-
   "notify.traffic_title": "扬帆云流量告急",
   "notify.traffic_body": "剩余 %s（%s），到期 %s",
   "notify.days_title": "扬帆云套餐即将到期",
   "notify.days_body": "还剩 %d 天（%s 到期），剩余 %s",
-
   "tooltip.plan": "套餐",
   "tooltip.remain": "剩余",
   "tooltip.used": "已用",
@@ -57,7 +52,6 @@
   "tooltip.updated": "%d 分钟前更新",
   "tooltip.problem": "问题",
   "tooltip.hint": "提示",
-
   "panel.open_settings": "打开设置",
   "panel.retry": "重试",
   "panel.not_configured": "还没配置扬帆云账号",
@@ -81,5 +75,7 @@
   "panel.relogin_title": "已清除登录令牌",
   "panel.relogin_body": "下次取数会用设置里的邮箱密码重新登录",
   "panel.updated_at": "更新于 %s · 每 %d 分钟自动刷新",
-  "panel.last_error": "上次失败：%s"
+  "panel.last_error": "上次失败：%s",
+  "hint.settings": "还没填面板的邮箱和密码",
+  "hint.base_url": "还没填面板地址（默认值是占位符，改成你自己的面板域名）"
 }

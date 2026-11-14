@@ -68,9 +68,7 @@ local function render()
     if not cfg.ready then
         text = y.t("bar.not_configured", "未配置")
         color = "on_surface"
-        reason = cfg.problem == "password"
-            and y.t("hint.need_password", "填了邮箱，但还没填密码")
-            or y.t("hint.need_account", "还没填扬帆云的邮箱和密码")
+        reason = cfg.problemText
     elseif not snap then
         local state = status and status.state or "loading"
         if state == "error" then

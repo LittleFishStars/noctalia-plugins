@@ -87,9 +87,7 @@ local function poll(reason)
     local cfg = y.config()
 
     if not cfg.ready then
-        local message = cfg.problem == "password"
-            and y.t("hint.need_password", "填了邮箱，但还没填密码")
-            or y.t("hint.need_account", "还没填扬帆云的邮箱和密码")
+        local message = cfg.problemText or y.t("hint.settings", "还没填面板的邮箱和密码")
         y.setStatus({ state = "config", at = os.time(), message = message })
         logOnce("等待配置：" .. message)
         applyInterval(cfg, 1)

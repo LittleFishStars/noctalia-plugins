@@ -142,7 +142,7 @@ entry = "bar.luau"
 id = "panel"
 entry = "panel.luau"
 width = 380
-height = 430
+height = 520
 placement = "floating"
 position = "center"
 

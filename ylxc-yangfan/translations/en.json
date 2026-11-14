@@ -1,7 +1,6 @@
 {
   "plugin.name": "Yangfan Traffic",
   "plugin.description": "Remaining traffic and days left for the Yangfan panel; logs in again with your email and password when the token expires",
-
   "settings.email.label": "Email",
   "settings.email.description": "The email you log into the Yangfan panel with",
   "settings.password.label": "Password",
@@ -29,20 +28,16 @@
   "settings.display.option.percent": "Remaining percent",
   "settings.display.option.days": "Days left",
   "settings.display.option.remain_days": "Traffic + days",
-
   "bar.days": "%dd",
   "bar.longterm": "forever",
   "bar.unlimited": "unlimited",
   "bar.not_configured": "not set",
-
   "hint.need_account": "Set your Yangfan email and password in the plugin settings",
   "hint.need_password": "Email is set but the password is empty",
-
   "notify.traffic_title": "Yangfan traffic is low",
   "notify.traffic_body": "%s left (%s), expires %s",
   "notify.days_title": "Yangfan plan expires soon",
   "notify.days_body": "%d days left (expires %s), %s remaining",
-
   "tooltip.plan": "Plan",
   "tooltip.remain": "Remaining",
   "tooltip.used": "Used",
@@ -57,7 +52,6 @@
   "tooltip.updated": "updated %d min ago",
   "tooltip.problem": "Problem",
   "tooltip.hint": "Hint",
-
   "panel.open_settings": "Open settings",
   "panel.retry": "Retry",
   "panel.not_configured": "Yangfan account is not configured",
@@ -81,5 +75,7 @@
   "panel.relogin_title": "Login token cleared",
   "panel.relogin_body": "The next fetch will log in with your saved email and password",
   "panel.updated_at": "Updated %s · refreshes every %d min",
-  "panel.last_error": "Last error: %s"
+  "panel.last_error": "Last error: %s",
+  "hint.settings": "Panel email and password are not set",
+  "hint.base_url": "Panel URL is still the placeholder; set your own panel domain"
 }

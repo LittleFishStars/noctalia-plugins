@@ -17,7 +17,7 @@ local status = nil
 local MUTED = "on_surface/0.62"
 
 local function row(label, value, color)
-    return ui.row({ justify = "space_between", align = "center", gap = 10, width = 320 }, {
+    return ui.row({ justify = "space_between", align = "center", gap = 10 }, {
         ui.label({ text = label, color = MUTED, fontSize = 12 }),
         ui.label({ text = tostring(value), color = color or "on_surface", fontSize = 12, fontWeight = "medium" }),
     })
@@ -32,7 +32,7 @@ end
 
 --- 未配置 / 拿不到数据时的引导
 local function emptyTree(reason, detail)
-    return ui.column({ gap = 10, padding = 4 }, {
+    return ui.column({ gap = 12, padding = 16 }, {
         ui.label({ text = reason, fontSize = 14, fontWeight = "medium" }),
         ui.label({ text = detail or "", color = MUTED, fontSize = 12, maxLines = 4 }),
         ui.row({ gap = 8 }, {
@@ -60,17 +60,14 @@ local function bodyTree()
     local cfg = y.config()
 
     if not cfg.ready then
-        local detail = cfg.problem == "password"
-            and y.t("hint.need_password", "填了邮箱，但还没填密码")
-            or y.t("hint.need_account", "还没填扬帆云的邮箱和密码")
-        return emptyTree(y.t("panel.not_configured", "还没配置扬帆云账号"), detail)
+        return emptyTree(y.t("panel.not_configured", "还没配置扬帆云账号"), cfg.problemText)
     end
 
     if not snap then
         if status and status.state == "error" then
             return emptyTree(y.t("panel.failed", "获取失败"), status.message)
         end
-        return ui.column({ gap = 8, padding = 4 }, {
+        return ui.column({ gap = 8, padding = 16 }, {
             ui.label({ text = y.t("panel.loading", "正在获取剩余流量…"), color = MUTED, fontSize = 13 }),
         })
     end
@@ -99,7 +96,7 @@ local function bodyTree()
             end,
         }),
     }
-    table.insert(nodes, ui.row({ gap = 8, align = "center", width = 320 }, header))
+    table.insert(nodes, ui.row({ gap = 8, align = "center" }, header))
 
     -- 剩余大数字
     local remainText = snap.unlimited and y.t("bar.unlimited", "不限量") or y.bytesText(snap.remain)
@@ -111,8 +108,8 @@ local function bodyTree()
     -- 进度条：显示剩余比例
     if not snap.unlimited then
         table.insert(nodes, ui.column({ gap = 4 }, {
-            ui.progress({ progress = snap.remainPercent, fill = "primary", height = 8, radius = 4, width = 320 }),
-            ui.row({ justify = "space_between", width = 320 }, {
+            ui.progress({ progress = snap.remainPercent, fill = "primary", height = 8, radius = 4, flexGrow = 1 }),
+            ui.row({ justify = "space_between" }, {
                 ui.label({ text = y.percentText(snap.remainPercent, 1) .. " " .. y.t("panel.left", "可用"), color = MUTED, fontSize = 11 }),
                 ui.label({ text = y.bytesText(snap.total), color = MUTED, fontSize = 11 }),
             }),
@@ -211,7 +208,7 @@ local function bodyTree()
         }))
     end
 
-    return ui.column({ gap = 10, padding = 4 }, nodes)
+    return ui.column({ gap = 12, padding = 16 }, nodes)
 end
 
 local function render()

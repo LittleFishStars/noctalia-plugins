@@ -31,6 +31,13 @@ local SESSION_FILE = "session.json"
 local NOTIFY_FILE = "notified.json"
 
 local DEFAULT_BASE = "https://panel.example.com"
+
+--- 未配置时的默认提示（翻译文件里有同名 key，优先用翻译）
+local HINTS = {
+    settings = "还没填面板的邮箱和密码",
+    password = "填了邮箱，但还没填密码",
+    base_url = "还没填面板地址（默认值是占位符，改成你自己的面板域名）",
+}
 local UA = "Mozilla/5.0 (X11; Linux x86_64) noctalia-plugin-yangfan/1.0"
 
 --- 插件级 + 栏组件级设置的全集。键名必须与 plugin.toml 完全一致，
@@ -144,12 +151,23 @@ function M.config()
     cfg.interval = math.max(1, math.min(1440, tonumber(cfg.refresh_minutes) or 10))
     cfg.warnPercent = math.max(1, math.min(50, tonumber(cfg.warn_traffic_percent) or 10))
     cfg.warnDays = math.max(1, math.min(30, tonumber(cfg.warn_days) or 3))
-    cfg.ready = cfg.email ~= "" and M.trim(cfg.password) ~= ""
+
+    -- 清单里的默认面板地址是占位符（仓库要脱敏），真正能用必须在设置里换成
+    -- 自己的面板域名。占位符直接当「没配置」，否则用户只会看到「网络不通」。
+    local baseIsPlaceholder = cfg.base == ""
+        or cfg.base:find("example%.com") ~= nil
+        or cfg.base == DEFAULT_BASE
+
     if cfg.email == "" then
         cfg.problem = "settings"
     elseif M.trim(cfg.password) == "" then
         cfg.problem = "password"
+    elseif baseIsPlaceholder then
+        cfg.problem = "base_url"
     end
+
+    cfg.problemText = cfg.problem and M.t("hint." .. cfg.problem, HINTS[cfg.problem]) or nil
+    cfg.ready = cfg.problem == nil
     return cfg
 end
 
@@ -753,7 +771,7 @@ function M.t(key, fallback, subst)
     if ok and type(text) == "string" and text ~= "" and text ~= key then
         return text
     end
-    return fallback or key
+    return fallback or HINTS[key] or key
 end
 
 return M
